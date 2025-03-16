@@ -1,0 +1,72 @@
+# Maintainer: Arseniy Velikanov <me@adomerle.pw>
+# Kernel config based on: arch/arm64/configs/sm8250.config
+_flavor="postmarketos-qcom-sm8250-pipa"
+pkgname=linux-$_flavor
+pkgver=6.12.0
+pkgrel=0
+pkgdesc="Mainline kernel fork for Xiaomi Pad 6"
+arch="aarch64"
+_carch="arm64"
+url="https://github.com/vipaoL/linux"
+license="GPL-2.0-only"
+
+options="!strip !check !tracedeps
+	pmb:cross-native
+	pmb:kconfigcheck-nftables
+	pmb:kconfigcheck-community
+"
+
+makedepends="
+	postmarketos-installkernel
+	bash
+	bison
+	findutils
+	flex
+	installkernel
+	openssl-dev
+	perl
+	python3
+"
+
+# Source
+_commit="02a88f7bd5fb5ab7eecf89e64cf8c40752688671"
+_config="config-$_flavor.$arch"
+
+source="
+	$pkgname.tar.gz::$url/archive/$_commit/linux-$_commit.tar.gz
+	$_config
+"
+
+builddir="$srcdir/linux-$_commit"
+
+prepare() {
+	default_prepare
+
+	cp "$srcdir/config-$_flavor.$arch" .config
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}"
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot
+
+	make zinstall modules_install dtbs_install \
+		ARCH="$_carch" \
+		INSTALL_PATH="$pkgdir"/boot/ \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
+
+	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
+
+	install -D "$builddir"/include/config/kernel.release \
+		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+}
+
+sha512sums="
+a9c81b22c443157d9979a01a97dc933505b71e410f242796bfba7922751be45a95caa120174ded9ce3959fdf73a50c3901e267ea75bc9a29438371207d8dcd22  linux-postmarketos-qcom-sm8250-pipa.tar.gz
+e1269d2c987e81249b5f25a438b2b8662ec84e91adc29ea949366e98ed3df08c8ab97dbd0f887c0e211a1d133bbdd8e4e2a7a3381dcd41071311025158aea44d  config-postmarketos-qcom-sm8250-pipa.aarch64
+"
