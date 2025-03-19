@@ -7,7 +7,7 @@ pkgrel=0
 pkgdesc="Mainline kernel fork for Xiaomi Pad 6"
 arch="aarch64"
 _carch="arm64"
-url="https://github.com/vipaoL/linux"
+url="https://github.com/pipa-mainline/linux"
 license="GPL-2.0-only"
 
 options="!strip !check !tracedeps
@@ -29,7 +29,7 @@ makedepends="
 "
 
 # Source
-_commit="02a88f7bd5fb5ab7eecf89e64cf8c40752688671"
+_commit="ba780174a844c337bcb723b737b46753f11b2a40"
 _config="config-$_flavor.$arch"
 
 source="
