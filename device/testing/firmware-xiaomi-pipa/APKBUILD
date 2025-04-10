@@ -91,8 +91,9 @@ hexagonfs() {
 
 	while IFS="" read -r _i || [ -n "$_i" ]; do
 		[ ! -d $(dirname $_i) ] && mkdir -p $(dirname $_i)
-		install -Dm644 "$builddir/$_i" "$pkgdir/$_i"
+		install -Dm644 "$builddir/$_i" "$subpkgdir/$_i"
 	done < "$srcdir/hexagon_firmware.files"
+	
 }
 
 slpi() {
@@ -106,7 +107,7 @@ venus() {
 	pkgdesc="Xiaomi Pad 6 venus firmware"
 
 	install -Dm644 "$builddir"/lib/firmware/sm8250/xiaomi/pipa/venus.mbn -t \
-		"$subpkgdir/lib/firmware/qcom/sm8250/xiaomi/pipa/"
+		"$subpkgdir/lib/firmware/qcom/sm8250"
 }
 
 sha512sums="

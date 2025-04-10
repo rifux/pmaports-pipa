@@ -2,7 +2,7 @@
 # Maintainer: Arseniy Velikanov <me@adomerle.pw>
 pkgname=device-xiaomi-pipa
 pkgdesc="Xiami Pad 6"
-pkgver=1
+pkgver=2
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -25,6 +25,8 @@ source="
 	81-libssc-xiaomi-pipa.rules
 	deviceinfo
 	hexagonrpcd.confd
+	ucm2/xiaomi-pipa.conf
+	ucm2/HiFi.conf
 "
 
 subpackages="
@@ -42,6 +44,14 @@ package() {
 
 	install -Dm644 "$srcdir"/81-libssc-xiaomi-pipa.rules \
 		"$pkgdir"/usr/lib/udev/rules.d/81-libssc-xiaomi-pipa.rules
+
+	# Xiaomi Pad 6 alsa-ucm-conf
+
+	install -Dm644 "$srcdir"/xiaomi-pipa.conf \
+		"$pkgdir/usr/share/alsa/ucm2/conf.d/sm8250/Xiaomi Pad 6.conf"
+
+	install -Dm644 "$srcdir"/HiFi.conf \
+		"$pkgdir/usr/share/alsa/ucm2/Xiaomi/pipa/HiFi.conf"
 }
 
 nonfree_firmware() {
@@ -81,4 +91,6 @@ sha512sums="
 2c16ba75e0077b2b1eaefa4c73b287475505a1aeb291ec29316d41cc094277320f9d2aaabfd91eb1dc0f488ab2d61a94faef16e7afe0f1e226779113761b9a37  81-libssc-xiaomi-pipa.rules
 bbfb6f9dc69988dd9a06ba198668075149f36471e6100cd32c7b470a0989477f6627dc5c635fdf50158352e56d1406ced7f62f50cafe31f4057cfec1388865ee  deviceinfo
 7db4a5c9f9b9b03ec0448d1999fa990fc2b1d9f0245801539c53e3d0265c04cf4b91166385930f43fee5fc99cbaf70c90d564f5be3e7950caebf9974f3869144  hexagonrpcd.confd
+007908c49db107dd8289a96049ed4d77a55c7846e21f76fa7f97306df953ccdec7d821cbc7732a3ff7c532285175ebf0d6a4e3f224740ac002b23f3608cbf76d  xiaomi-pipa.conf
+9dbb9f3c40f3f51148f7a42bc489a537c60d32981a012cc9f0f08137c757e29d83381728cbc2cb7d63140a2c6ffa1bc0aa2fc431aa952425104195b7d64dbf5e  HiFi.conf
 "
