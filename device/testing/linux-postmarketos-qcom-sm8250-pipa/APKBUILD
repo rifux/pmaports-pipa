@@ -2,12 +2,12 @@
 # Kernel config based on: arch/arm64/configs/sm8250.config
 _flavor="postmarketos-qcom-sm8250-pipa"
 pkgname=linux-$_flavor
-pkgver=6.12.0
-pkgrel=0
+pkgver=6.14.9
+pkgrel=1
 pkgdesc="Mainline kernel fork for Xiaomi Pad 6"
 arch="aarch64"
 _carch="arm64"
-url="https://github.com/pipa-project/linux"
+url="https://github.com/pipa-mainline/linux"
 license="GPL-2.0-only"
 
 options="!strip !check !tracedeps
@@ -29,7 +29,7 @@ makedepends="
 "
 
 # Source
-_commit="7ab066a8cdbdb17ce22c03f4a6c66d27948a27bd"
+_commit="64c68fa711c2fb27d0a9fa75249b6680ae667b53"
 _config="config-$_flavor.$arch"
 
 source="
